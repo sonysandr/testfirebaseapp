@@ -12,19 +12,21 @@ export default function SignUp() {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // ..
-      });
+    try {
+      const signIn = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = signIn.user;
+      console.log(user);
+      navigate("/login");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      // ..
+    }
   };
 
   return (
@@ -62,3 +64,19 @@ export default function SignUp() {
     </div>
   );
 }
+
+// before change
+// .then((userCredential) => {
+//         // Signed in
+//         const user = userCredential.user;
+//         console.log(user);
+//         navigate("/login");
+//       })
+
+// before change = .catch
+// .catch((error) => {
+//         const errorCode = error.code;
+//         const errorMessage = error.message;
+//         console.log(errorCode, errorMessage);
+//         // ..
+//       });
